@@ -11,7 +11,7 @@ class LandingPageView(View):
         bags_donated = sum(donation.quantity for donation in donations)
         institutions_helped = len(institutions)
         return render(request, 'index.html', {'bags_donated': bags_donated,
-                                              'institutions_helped': institutions_helped})
+                                              'institutions_helped': institutions_helped, 'institutions': institutions})
 
 
 class AddDonationView(View):
