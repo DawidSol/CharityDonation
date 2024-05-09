@@ -2,7 +2,7 @@
 {% load static %}
     {% block header_class %}header--main-page{% endblock %}
           {% block donation %}
-              <li><a href="form.html" class="btn btn--without-border">Przekaż dary</a></li>
+              <li><a href="{% url 'add_donation' %}" class="btn btn--without-border">Przekaż dary</a></li>
           {% endblock %}
     {% block slogan %}
       <div class="slogan container container--90">
@@ -58,7 +58,7 @@
         </div>
       </div>
 
-      <a href="#" class="btn btn--large">Załóż konto</a>
+      <a href="{% url 'register' %}" class="btn btn--large">Załóż konto</a>
     </section>
 
     <section id="about-us" class="about-us">
