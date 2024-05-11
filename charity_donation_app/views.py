@@ -1,6 +1,6 @@
 import re
 from django.contrib.auth.models import User
-from django.http import HttpResponseBadRequest
+from django.contrib import messages
 from django.shortcuts import render
 from django.views import View
 
@@ -38,21 +38,26 @@ class RegisterView(View):
         try:
             user = User.objects.get(email=email)
             if user is not None:
-                return HttpResponseBadRequest("Użytkownik już istnieje")
+                messages.error(request, 'Użytkownik już istnieje.')
+                return render(request, 'register.html')
         except User.DoesNotExist:
 
             if not all([name, surname, email, password, password2]):
-                return HttpResponseBadRequest("Wszystkie pola formularza muszą być wypełnione.")
+                messages.error(request, "Wszystkie pola formularza muszą być wypełnione.")
+                return render(request, 'register.html')
 
             if password != password2:
-                return HttpResponseBadRequest("Hasła nie są identyczne.")
+                messages.error(request, "Hasła nie są identyczne.")
+                return render(request, 'register.html')
 
             if not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email):
-                return HttpResponseBadRequest("Nieprawidłowy adres email.")
+                messages.error(request, "Nieprawidłowy adres email.")
+                return render(request, 'register.html')
 
             if not (all(char.isalpha() or char.isspace() or char == '-' for char in name) and
                     all(char.isalpha() or char.isspace() or char == '-' for char in surname)):
-                return HttpResponseBadRequest("Imię i nazwisko nie mogą zawierać znaków specjalnych.")
+                messages.error(request, "Imię i nazwisko nie mogą zawierać znaków specjalnych.")
+                return render(request, 'register.html')
 
             User.objects.create_user(username=email, first_name=name, last_name=surname, email=email, password=password)
             return render(request, 'login.html')
