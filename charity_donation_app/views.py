@@ -2,7 +2,7 @@ import re
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import TemplateView
 from charity_donation_app.models import Donation, Institution
@@ -46,9 +46,11 @@ class LoginView(View):
         password = request.POST['password']
         user = authenticate(username=username, password=password)
         if user is None:
+            messages.error(request, 'Nie ma takiego użytkownika.')
             return redirect('register')
         else:
             login(request, user)
+            messages.success(request, 'Zalogowano.')
             return redirect('landing')
 
 
@@ -56,6 +58,7 @@ class LogoutView(View):
 
     def get(self, request):
         logout(request)
+        messages.success(request, 'Wylogowano.')
         return redirect('landing')
 
 
