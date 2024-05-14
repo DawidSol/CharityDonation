@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import TemplateView
-from charity_donation_app.models import Donation, Institution
+from charity_donation_app.models import Donation, Institution, Category
 
 
 class LandingPageView(TemplateView):
@@ -33,7 +33,8 @@ class LandingPageView(TemplateView):
 class AddDonationView(View):
 
     def get(self, request):
-        return render(request, 'form.html')
+        categories = Category.objects.all()
+        return render(request, 'form.html', {'categories': categories})
 
 
 class LoginView(View):
