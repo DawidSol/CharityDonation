@@ -1,4 +1,5 @@
 import re
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.shortcuts import render
@@ -39,6 +40,23 @@ class LoginView(View):
 
     def get(self, request):
         return render(request, 'login.html')
+
+    def post(self, request):
+        username = request.POST['email']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is None:
+            return redirect('register')
+        else:
+            login(request, user)
+            return redirect('landing')
+
+
+class LogoutView(View):
+
+    def get(self, request):
+        logout(request)
+        return redirect('landing')
 
 
 class RegisterView(View):
