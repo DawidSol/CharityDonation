@@ -1,11 +1,42 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block style %}
+    <style>
+    .flash-message-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;    
+    z-index: 1000;
+        }
+    .flash-message {
+            padding: 12px;
+            background-color: red;
+            color: white;
+            border-radius: 5px;
+            width: auto;
+            font-size: 20px;
+            display: inline-block;
+        }
+    .close-button {
+            display: block;
+            background-color: #ffffff;
+            border: none;
+            cursor: pointer;
+            padding: 5px 10px;
+            margin: 0 auto;
+        }
+    </style>
+
+{% endblock %}
 {% block section %}
     <section class="login-page">
       <h2>Załóż konto</h2>
-      <form>
+      <form action="" method="POST"  >
+          {% csrf_token %}
         <div class="form-group">
-          <input type="text" name="name" placeholder="Imię" />
+            <input type="text" name="name" placeholder="Imię" />
         </div>
          <div class="form-group">
           <input type="text" name="surname" placeholder="Nazwisko" />
@@ -21,9 +52,27 @@
         </div>
 
         <div class="form-group form-group--buttons">
-          <a href="login.html" class="btn btn--without-border">Zaloguj się</a>
+          <a href="{% url 'login' %}" class="btn btn--without-border">Zaloguj się</a>
           <button class="btn" type="submit">Załóż konto</button>
         </div>
       </form>
+    <div class="flash-message-container">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="flash-message" id="flash-message">
+                <span>{{ message }}</span>
+                <button class="close-button" id="close-button">OK</button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    </div>
     </section>
     {% endblock %}
+{% block script %}
+    <script>
+    document.getElementById('close-button').addEventListener('click', function() {
+            let flashMessage = document.getElementById('flash-message');
+            flashMessage.parentNode.removeChild(flashMessage);
+        });
+    </script>
+{% endblock %}
