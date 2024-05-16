@@ -257,4 +257,5 @@ document.addEventListener("DOMContentLoaded", function() {
             const flashMessage = document.getElementById('flash-message');
             flashMessage.parentNode.removeChild(flashMessage);
         })
+
 });
