@@ -256,30 +256,31 @@ document.addEventListener("DOMContentLoaded", function() {
     new FormSteps(form);
   }
 
-  document.getElementById('close-button').addEventListener('click', function () {
-    const flashMessage = document.getElementById('flash-message');
-    flashMessage.parentNode.removeChild(flashMessage);
-  })
-
-    function filterInstitutions() {
-    const selectedCategories = document.querySelectorAll('input[name="categories"]:checked');
-    const institutions = document.querySelectorAll('.institution')
-    institutions.forEach(function (institution) {
-      const relatedCategories = institution.getAttribute('data-categories').split(',');
-      const isRelated = relatedCategories.some(function(categoryId) {
-            return Array.from(selectedCategories).some(function(checkbox) {
-                return checkbox.value === categoryId;
-            });
-      });
-
-      if (isRelated) {
-        institution.classList.remove('hidden')
-      }
+document.getElementById('filter-btn').addEventListener('click', function() {
+    const selectedCategoryIds = [];
+    document.querySelectorAll('input[name="categories"]:checked').forEach(function(checkbox) {
+        selectedCategoryIds.push(checkbox.value);
     });
-  }
 
-  document.getElementById('filter-institutions-btn').addEventListener('click', function () {
-    filterInstitutions();
-  });
+    const institutions = document.querySelectorAll('.institution');
+    institutions.forEach(function(institution) {
+        const relatedCategories = institution.getAttribute('data-categories').split(',');
+        const isRelated = relatedCategories.some(function(categoryId) {
+            return selectedCategoryIds.includes(categoryId);
+        });
+        if (isRelated) {
+            institution.style.display = 'block';
+        } else {
+            institution.style.display = 'none';
+        }
+    });
+
+    document.getElementById('institutions-container').style.display = 'block';
+});
 
 });
+
+document.getElementById('close-button').addEventListener('click', function () {
+    const flashMessage = document.getElementById('flash-message');
+    flashMessage.parentNode.removeChild(flashMessage);
+  });

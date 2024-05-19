@@ -1,10 +1,5 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block style %}
-            .hidden {
-            display: none;
-        }
-{% endblock %}
     {% block header_class %}header--form-page{% endblock %}
           {% block donation %}
               <li><a {% if user.is_authenticated %}href="{% url 'add_donation' %}"
@@ -92,21 +87,22 @@
             <div class="form-group form-group--inline">
               <label>
                 Liczba 60l worków:
-                <input type="number" name="bags" step="1" min="1" />
+                <input type="number" name="bags" step="1" min="1"/>
               </label>
             </div>
 
             <div class="form-group form-group--buttons">
               <button type="button" class="btn prev-step">Wstecz</button>
-              <button type="button" class="btn next-step" id="filter-institutions-btn">Dalej</button>
+              <button type="button" class="btn next-step" id="filter-btn" >Dalej</button>
             </div>
           </div>
         
           <div data-step="3">
             <h3>Wybierz organizacje, której chcesz pomóc:</h3>
-              
+              <div id="institutions-container" style="display: none;">
             {% for institution in institutions %}
-            <div class="form-group form-group--checkbox institution hidden" data-categories="{{ institution.categories.all|join:',' }}">
+            <div class="form-group form-group--checkbox institution" 
+                 data-categories="{% for category in institution.categories.all %}{{ category.id }}{% if not forloop.last %},{% endif %}{% endfor %}">
               <label>
                 <input type="radio" name="organization" value="{{ institution.id }}" />
                 <span class="checkbox radio"></span>
@@ -117,7 +113,7 @@
               </label>
             </div>
               {% endfor %}
-              
+              </div>
             <div class="form-group form-group--buttons">
               <button type="button" class="btn prev-step">Wstecz</button>
               <button type="button" class="btn next-step">Dalej</button>
