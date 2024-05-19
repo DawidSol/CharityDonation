@@ -102,4 +102,4 @@ class RegisterView(View):
                 return render(request, 'register.html')
 
             User.objects.create_user(username=email, first_name=name, last_name=surname, email=email, password=password)
-            return render(request, 'login.html')
+            return redirect('login')

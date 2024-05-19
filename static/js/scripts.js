@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function() {
       console.log(page);
     }
   }
+
   const helpSection = document.querySelector(".help");
   if (helpSection !== null) {
     new Help(helpSection);
@@ -136,6 +137,7 @@ document.addEventListener("DOMContentLoaded", function() {
       });
     }
   }
+
   document.querySelectorAll(".form-group--dropdown select").forEach(el => {
     new FormSelect(el);
   });
@@ -143,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function() {
   /**
    * Hide elements when clicked on document
    */
-  document.addEventListener("click", function(e) {
+  document.addEventListener("click", function (e) {
     const target = e.target;
     const tagName = target.tagName;
 
@@ -248,14 +250,36 @@ document.addEventListener("DOMContentLoaded", function() {
       this.updateForm();
     }
   }
+
   const form = document.querySelector(".form--steps");
   if (form !== null) {
     new FormSteps(form);
   }
 
-  document.getElementById('close-button').addEventListener('click', function() {
-            const flashMessage = document.getElementById('flash-message');
-            flashMessage.parentNode.removeChild(flashMessage);
-        })
+  document.getElementById('close-button').addEventListener('click', function () {
+    const flashMessage = document.getElementById('flash-message');
+    flashMessage.parentNode.removeChild(flashMessage);
+  })
+
+    function filterInstitutions() {
+    const selectedCategories = document.querySelectorAll('input[name="categories"]:checked');
+    const institutions = document.querySelectorAll('.institution')
+    institutions.forEach(function (institution) {
+      const relatedCategories = institution.getAttribute('data-categories').split(',');
+      const isRelated = relatedCategories.some(function(categoryId) {
+            return Array.from(selectedCategories).some(function(checkbox) {
+                return checkbox.value === categoryId;
+            });
+      });
+
+      if (isRelated) {
+        institution.classList.remove('hidden')
+      }
+    });
+  }
+
+  document.getElementById('filter-institutions-btn').addEventListener('click', function () {
+    filterInstitutions();
+  });
 
 });
