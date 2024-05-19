@@ -278,9 +278,22 @@ document.getElementById('filter-btn').addEventListener('click', function() {
     document.getElementById('institutions-container').style.display = 'block';
 });
 
+  document.getElementById('summary-btn').addEventListener('click', function () {
+    document.getElementById('summary-bags').innerText = "Liczba podarowanych worków: " + document.querySelector("input[name='bags']").value
+    document.getElementById('summary-institution').innerText = "Na rzecz: " + document.querySelector('input[name="organization"]:checked').value
+    document.getElementById('summary-address').innerText = document.querySelector('input[name="address"]').value
+    document.getElementById('summary-city').innerText = document.querySelector('input[name="city"]').value
+    document.getElementById('summary-postcode').innerText = document.querySelector('input[name="postcode"]').value
+    document.getElementById('summary-phone').innerText = document.querySelector('input[name="phone"]').value
+    document.getElementById('summary-data').innerText = document.querySelector('input[name="data"]').value
+    document.getElementById('summary-time').innerText = document.querySelector('input[name="time"]').value
+    document.getElementById('summary-info').innerText = document.querySelector('textarea[name="more_info"]').value
+});
+
 });
 
 document.getElementById('close-button').addEventListener('click', function () {
     const flashMessage = document.getElementById('flash-message');
     flashMessage.parentNode.removeChild(flashMessage);
   });
+
