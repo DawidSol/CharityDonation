@@ -298,4 +298,3 @@ document.getElementById('close-button').addEventListener('click', function () {
     const flashMessage = document.getElementById('flash-message');
     flashMessage.parentNode.removeChild(flashMessage);
   });
-
