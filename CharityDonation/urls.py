@@ -21,6 +21,7 @@ from charity_donation_app.views import (LandingPageView,
                                         LoginView,
                                         RegisterView,
                                         LogoutView,
+                                        FormConfirmationView,
                                         )
 
 urlpatterns = [
@@ -30,4 +31,5 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('register/', RegisterView.as_view(), name='register'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('form_confirmation/', FormConfirmationView.as_view(), name='form_confirmation'),
 ]

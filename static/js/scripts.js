@@ -228,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function() {
       this.slides.forEach(slide => {
         slide.classList.remove("active");
 
-        if (slide.dataset.step == this.currentStep) {
+        if (slide.dataset.step === this.currentStep) {
           slide.classList.add("active");
         }
       });
@@ -245,9 +245,11 @@ document.addEventListener("DOMContentLoaded", function() {
      * TODO: validation, send data to server
      */
     submit(e) {
-      e.preventDefault();
-      this.currentStep++;
-      this.updateForm();
+      if (this.currentStep < 5) {
+        e.preventDefault();
+        this.currentStep++;
+        this.updateForm();
+      }
     }
   }
 
@@ -285,7 +287,7 @@ document.getElementById('filter-btn').addEventListener('click', function() {
     document.getElementById('summary-city').innerText = document.querySelector('input[name="city"]').value
     document.getElementById('summary-postcode').innerText = document.querySelector('input[name="postcode"]').value
     document.getElementById('summary-phone').innerText = document.querySelector('input[name="phone"]').value
-    document.getElementById('summary-data').innerText = document.querySelector('input[name="data"]').value
+    document.getElementById('summary-date').innerText = document.querySelector('input[name="date"]').value
     document.getElementById('summary-time').innerText = document.querySelector('input[name="time"]').value
     document.getElementById('summary-info').innerText = document.querySelector('textarea[name="more_info"]').value
 });
