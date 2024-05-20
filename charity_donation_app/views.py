@@ -54,7 +54,6 @@ class AddDonationView(View):
                                 pick_up_date=pick_up_date, pick_up_time=pick_up_time,
                                 pick_up_comment=pick_up_comment, user=user)
         new_donation.save()
-        messages.success(request, 'Przekazano dary.')
         return redirect('form_confirmation')
 
 
