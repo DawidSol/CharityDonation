@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function() {
       console.log(page);
     }
   }
+
   const helpSection = document.querySelector(".help");
   if (helpSection !== null) {
     new Help(helpSection);
@@ -136,6 +137,7 @@ document.addEventListener("DOMContentLoaded", function() {
       });
     }
   }
+
   document.querySelectorAll(".form-group--dropdown select").forEach(el => {
     new FormSelect(el);
   });
@@ -143,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function() {
   /**
    * Hide elements when clicked on document
    */
-  document.addEventListener("click", function(e) {
+  document.addEventListener("click", function (e) {
     const target = e.target;
     const tagName = target.tagName;
 
@@ -243,18 +245,56 @@ document.addEventListener("DOMContentLoaded", function() {
      * TODO: validation, send data to server
      */
     submit(e) {
-      e.preventDefault();
-      this.currentStep++;
-      this.updateForm();
+      if (this.currentStep < 5) {
+        e.preventDefault();
+        this.currentStep++;
+        this.updateForm();
+      }
     }
   }
+
   const form = document.querySelector(".form--steps");
   if (form !== null) {
     new FormSteps(form);
   }
 
-  document.getElementById('close-button').addEventListener('click', function() {
-            const flashMessage = document.getElementById('flash-message');
-            flashMessage.parentNode.removeChild(flashMessage);
-        })
+document.getElementById('filter-btn').addEventListener('click', function() {
+    const selectedCategoryIds = [];
+    document.querySelectorAll('input[name="categories"]:checked').forEach(function(checkbox) {
+        selectedCategoryIds.push(checkbox.value);
+    });
+
+    const institutions = document.querySelectorAll('.institution');
+    institutions.forEach(function(institution) {
+        const relatedCategories = institution.getAttribute('data-categories').split(',');
+        const isRelated = relatedCategories.some(function(categoryId) {
+            return selectedCategoryIds.includes(categoryId);
+        });
+        if (isRelated) {
+            institution.style.display = 'block';
+        } else {
+            institution.style.display = 'none';
+        }
+    });
+
+    document.getElementById('institutions-container').style.display = 'block';
 });
+
+  document.getElementById('summary-btn').addEventListener('click', function () {
+    document.getElementById('summary-bags').innerText = "Liczba podarowanych worków: " + document.querySelector("input[name='bags']").value
+    document.getElementById('summary-institution').innerText = "Na rzecz: " + document.querySelector('input[name="organization"]:checked').value
+    document.getElementById('summary-address').innerText = document.querySelector('input[name="address"]').value
+    document.getElementById('summary-city').innerText = document.querySelector('input[name="city"]').value
+    document.getElementById('summary-postcode').innerText = document.querySelector('input[name="postcode"]').value
+    document.getElementById('summary-phone').innerText = document.querySelector('input[name="phone"]').value
+    document.getElementById('summary-date').innerText = document.querySelector('input[name="date"]').value
+    document.getElementById('summary-time').innerText = document.querySelector('input[name="time"]').value
+    document.getElementById('summary-info').innerText = document.querySelector('textarea[name="more_info"]').value
+});
+
+});
+
+document.getElementById('close-button').addEventListener('click', function () {
+    const flashMessage = document.getElementById('flash-message');
+    flashMessage.parentNode.removeChild(flashMessage);
+  });
