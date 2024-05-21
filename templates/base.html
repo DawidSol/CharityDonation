@@ -33,6 +33,7 @@
             padding: 5px 10px;
             margin: 0 auto;
         }
+    {% block style %}{% endblock %}
     </style>
   </head>
 <body>
@@ -44,7 +45,7 @@
                   <li class="logged-user">
             Witaj {{ user.first_name }}
             <ul class="dropdown">
-              <li><a href="#">Profil</a></li>
+              <li><a href="{% url 'user_profile' %}">Profil</a></li>
               <li><a href="#">Ustawienia</a></li>
                 {% if user.is_superuser %}
                     <li><a href="{% url "admin:index" %}">Panel administracyjny</a></li>

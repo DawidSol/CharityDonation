@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+    .user-info {
+    font-size: 20px;
+    }
+{% endblock %}
+{% block section %}
+    <h2>Dane Użytkownika</h2>
+    <ul>
+    <li class="user-info"><h3>Imię: </h3>{{ user.first_name }}</li>
+    <li class="user-info"><h3>Nazwisko: </h3>{{ user.last_name }}</li>
+    <li class="user-info"><h3>e-Mail: </h3>{{ user.email }}</li>
+    </ul>
+{% endblock %}

@@ -126,3 +126,13 @@ class RegisterView(View):
 class FormConfirmationView(View):
     def get(self, request):
         return render(request, 'form-confirmation.html')
+
+
+class UserProfileView(TemplateView):
+    template_name = 'user-profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        user = self.request.user
+        context['user'] = user
