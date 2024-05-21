@@ -4,6 +4,13 @@
     .user-info {
     font-size: 20px;
     }
+    .donation-info {
+    font-size: 15px;
+    }
+    li h3 {
+            display: inline;
+            margin: 0;
+        }
 {% endblock %}
 {% block section %}
     <h2>Dane Użytkownika</h2>
@@ -11,5 +18,15 @@
     <li class="user-info"><h3>Imię: </h3>{{ user.first_name }}</li>
     <li class="user-info"><h3>Nazwisko: </h3>{{ user.last_name }}</li>
     <li class="user-info"><h3>e-Mail: </h3>{{ user.email }}</li>
+    </ul>
+    <h2>Lista przekazanych darów</h2>
+    <ul>
+    {% for donation in donations %}
+        <li class="donation-info"><h3>Liczba przekazanych worków: </h3>{{ donation.quantity }}</li>
+        <li class="donation-info"><h3>Na rzecz fundacji: </h3>{{ donation.institution }}</li>
+        <li class="donation-info"><h3>Kategorie darów: </h3>{% for category in donation.categories.all %}{{ category.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</li>
+        <li class="donation-info"><h3>Data odbioru darów: </h3>{{ donation.pick_up_date }}</li>
+        <h1>-----------------------------</h1>
+    {% endfor %}
     </ul>
 {% endblock %}
