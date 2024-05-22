@@ -48,12 +48,15 @@ class AddDonationView(View):
         pick_up_date = request.POST.get('date')
         pick_up_time = request.POST.get('time')
         pick_up_comment = request.POST.get('more_info')
+        categories = request.POST.getlist('categories')
         user = request.user
-        new_donation = Donation(quantity=quantity, institution=institution, address=address, city=city,
+        new_donation = Donation(quantity=quantity, institution=institution,
+                                address=address, city=city,
                                 zip_code=zip_code, phone_number=phone_number,
                                 pick_up_date=pick_up_date, pick_up_time=pick_up_time,
                                 pick_up_comment=pick_up_comment, user=user)
         new_donation.save()
+        new_donation.categories.add(*categories)
         return redirect('form_confirmation')
 
 
@@ -126,3 +129,17 @@ class RegisterView(View):
 class FormConfirmationView(View):
     def get(self, request):
         return render(request, 'form-confirmation.html')
+
+
+class UserProfileView(TemplateView):
+    template_name = 'user-profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        user = self.request.user
+        donations = Donation.objects.filter(user=user)
+        context['user'] = user
+        context['donations'] = donations
+
+        return context
